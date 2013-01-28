@@ -1,0 +1,5 @@
+==Micro Blogger
+
+This is a simple example for practice in Jump Start Lab website! I'm just going through it for fun and deliberate practice! I Refactor things that I think need to be better and cleaner and more SOLID and writing automated unit-tests for the code, etc.
+
+Here's the link for the JumpStartLab description -> http://tutorials.jumpstartlab.com/projects/microblogger.html
