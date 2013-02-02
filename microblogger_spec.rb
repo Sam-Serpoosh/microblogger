@@ -6,26 +6,23 @@ describe MicroBlogger do
 
   it "sends a tweet under 140 characters" do
     message = "sample tweet"
+    tweet_text = "t #{message}"
     twitter_client.should_receive(:update).with(message)
-    blogger.tweet(message)
+    blogger.tweet(tweet_text)
   end
 
   it "does not send tweet if more than 140 characters" do
     long_message = "".ljust(141, "abcd")
+    tweet_text = "t #{long_message}"
     twitter_client.should_not_receive(:update)
-    blogger.tweet(long_message)
+    blogger.tweet(tweet_text)
   end
 
-  it "extract command part out of the input" do
-    input = "t this is a test tweet"
-    command = blogger.extract_command(input)
-    command.should == "t"
-  end
-
-  it "extracts the parameter out of the input" do
-    tweet = "this is a test tweet"
-    input = "t #{tweet}"
-    parameter = blogger.extract_parameter(input) 
-    parameter.should == tweet
+  it "sends the dm-style tweet" do
+    receiver, message = "receiver", "some message"
+    dm = "dm #{receiver} #{message}"
+    tweet = "D #{receiver} #{message}"
+    twitter_client.should_receive(:update).with(tweet)
+    blogger.dm(dm)
   end
 end
