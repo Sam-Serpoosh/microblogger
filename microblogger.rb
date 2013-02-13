@@ -9,36 +9,9 @@ class MicroBlogger
     @command_parser = CommandParser.new
   end
 
-  def run
-    puts "welcome to the twitter client app!"
-    command = ""
-    while command != "q"
-      printf "enter a command: "
-      input = gets.chomp
-      command = @command_parser.extract_command(input)
-      process_command(command, input)
-    end
-  end
-
-  def process_command(command, input)
-      case command
-        when "q"
-          puts "Goodbye!"
-        when "t"
-          tweet(input)
-        when "dm"
-          dm(input)
-        when "spam"
-          spam_my_friends(input)
-        else
-          puts "Sorry, I don't know how to #{command}"
-      end
-  end
-
   def spam_my_friends(message)
     spam_message = @command_parser.extract_spam_message(message)
-    friends = followers_list
-    friends.each do |f|
+    followers_list.each do |f|
       dm("dm #{f} #{spam_message}")
     end
   end
@@ -69,6 +42,3 @@ class MicroBlogger
     @client.followers.map(&:screen_name)
   end
 end
-
-blogger = MicroBlogger.new(JumpstartAuth.twitter)
-blogger.run
