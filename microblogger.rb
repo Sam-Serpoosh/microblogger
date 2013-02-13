@@ -32,6 +32,15 @@ class MicroBlogger
     end
   end
 
+  def everyone_last_message
+    followeds = @client.friends
+    messages = {}
+    followeds.each do |friend|
+      messages[friend.screen_name.to_sym] = friend.status.text
+    end
+    messages
+  end
+
   def not_followed_by?(name)
     not_followed = !followers_list.include?(name)
     puts "You can only DM your followers" if not_followed

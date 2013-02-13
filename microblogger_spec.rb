@@ -46,4 +46,11 @@ describe MicroBlogger do
 
     blogger.spam_my_friends("spam foo bar")
   end
+
+  it "gets last message of friends" do
+    followed = stub(:screen_name => "bob", :status => stub(:text => "hello"))
+    twitter_client.should_receive(:friends).and_return([followed])
+    last_messages = blogger.everyone_last_message
+    last_messages.should == { bob: "hello" }
+  end
 end

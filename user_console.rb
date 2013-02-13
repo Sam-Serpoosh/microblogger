@@ -27,9 +27,17 @@ class UserConsole
           @microblogger.dm(input)
         when "spam"
           @microblogger.spam_my_friends(input)
+        when "elt"
+          print_messages(@microblogger.everyone_last_message)
         else
           puts "Sorry, I don't know how to #{command}"
       end
+  end
+
+  def print_messages(messages)
+    messages.each do |person, message|
+      puts "#{person} said: #{message}"
+    end
   end
 end
 
