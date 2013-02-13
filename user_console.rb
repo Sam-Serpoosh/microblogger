@@ -35,8 +35,9 @@ class UserConsole
   end
 
   def print_messages(messages)
-    messages.each do |person, message|
-      puts "#{person} said: #{message}"
+    messages.each do |message|
+      puts "#{message.sender} said this on #{message.timestamp}"
+      puts "#{message.text}"
     end
   end
 end

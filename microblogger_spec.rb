@@ -1,4 +1,5 @@
 require_relative "microblogger"
+require 'date'
 
 describe MicroBlogger do
   let(:twitter_client) { stub.as_null_object }
@@ -48,9 +49,13 @@ describe MicroBlogger do
   end
 
   it "gets last message of friends" do
-    followed = stub(:screen_name => "bob", :status => stub(:text => "hello"))
+    timestamp = DateTime.new(2012, 2, 21)
+    followed = stub(:screen_name => "bob", 
+                    :status => stub(:text => "hello", 
+                                    :created_at => timestamp))
     twitter_client.should_receive(:friends).and_return([followed])
     last_messages = blogger.everyone_last_message
-    last_messages.should == { bob: "hello" }
+    message = last_messages.first
+    message.should == Message.new(:bob, "hello", timestamp)
   end
 end

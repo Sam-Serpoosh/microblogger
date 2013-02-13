@@ -33,10 +33,11 @@ class MicroBlogger
   end
 
   def everyone_last_message
-    followeds = @client.friends
-    messages = {}
+    followeds = @client.friends.sort_by { |f| f.screen_name.downcase }
+    messages = [] 
     followeds.each do |friend|
-      messages[friend.screen_name.to_sym] = friend.status.text
+      messages << Message.new(friend.screen_name.to_sym, friend.status.text,
+                              friend.status.created_at)
     end
     messages
   end
@@ -49,5 +50,21 @@ class MicroBlogger
 
   def followers_list
     @client.followers.map(&:screen_name)
+  end
+end
+
+class Message
+  attr_reader :sender, :timestamp, :text
+  
+  def initialize(sender, text, timestamp)
+    @sender = sender
+    @text = text
+    @timestamp = timestamp.strftime("%A, %b %d")
+  end
+
+  def ==(other)
+    return false if !other.is_a?(Message)
+    return other.sender == @sender && other.timestamp == @timestamp && 
+      other.text == @text
   end
 end
