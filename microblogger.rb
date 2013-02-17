@@ -20,22 +20,21 @@ class MicroBlogger
     receiver = @command_parser.extract_receiver(dm_text)
     return if not_followed_by?(receiver)
     message = @command_parser.extract_dm_message(dm_text) 
-    tweet("t #{MessageFormatter.shape_dm_tweet(receiver, message)}")
+    tweet("#{MessageFormatter.shape_dm_tweet(receiver, message)}")
   end
 
-  def tweet(tweet_text)
-    message = @command_parser.extract_tweet_message(tweet_text)
-    if message.length <= 140
-      @client.update(message)
+  def tweet(tweet_message)
+    if tweet_message.length <= 140
+      @client.update(tweet_message)
     else
       puts "Your message can't be more than 140 chars!!!should "
     end
   end
 
   def everyone_last_message
-    followeds = @client.friends.sort_by { |f| f.screen_name.downcase }
+    following = @client.friends.sort_by { |f| f.screen_name.downcase }
     messages = [] 
-    followeds.each do |friend|
+    following.each do |friend|
       messages << Message.new(friend.screen_name.to_sym, friend.status.text,
                               friend.status.created_at)
     end

@@ -1,9 +1,12 @@
 require_relative 'microblogger'
+require_relative 'command_parser'
+require_relative 'url_shortener'
 
 class UserConsole
   def initialize
     @command_parser = CommandParser.new
     @microblogger = MicroBlogger.new(JumpstartAuth.twitter)
+    @url_shortener = UrlShortener.new
   end
    
   def run
@@ -22,13 +25,15 @@ class UserConsole
         when "q"
           puts "Goodbye!"
         when "t"
-          @microblogger.tweet(input)
+          @microblogger.tweet(@command_parser.extract_tweet_message(input))
         when "dm"
           @microblogger.dm(input)
         when "spam"
           @microblogger.spam_my_friends(input)
         when "elt"
           print_messages(@microblogger.everyone_last_message)
+        when "turl"
+          tweet_with_url(input)
         else
           puts "Sorry, I don't know how to #{command}"
       end
@@ -39,6 +44,11 @@ class UserConsole
       puts "#{message.sender} said this on #{message.timestamp}"
       puts "#{message.text}"
     end
+  end
+
+  def tweet_with_url(tweet_text)
+    tweet_and_url = @command_parser.extract_tweet_with_url(tweet_text)
+    @microblogger.tweet(tweet_and_url[0] + " " + @url_shortener.shorten(tweet_and_url[1]))
   end
 end
 

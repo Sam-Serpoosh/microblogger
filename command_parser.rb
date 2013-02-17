@@ -12,9 +12,20 @@ class CommandParser
     extract_tweet_message(input)
   end
 
+  def extract_single_parameter(input)
+    extract_tweet_message(input)
+  end
+
   def extract_dm_message(input)
     parts = input.split(" ")
     parts[2..-1].join(" ")
+  end
+
+  def extract_tweet_with_url(input)
+    parts = input.split(" ")
+    tweet = parts[1..-2].join(" ")
+    url = parts[-1]
+    [tweet, url]
   end
 
   def extract_receiver(dm)

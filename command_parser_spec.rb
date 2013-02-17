@@ -27,4 +27,13 @@ describe CommandParser do
     parameter = subject.extract_dm_message(input)
     parameter.should == dm
   end
+
+  it "parse the tweet with url" do
+    tweet = "I wrote this at:"
+    url = "http://test.com"
+    tweet_with_url = "turl #{tweet} #{url}"
+    tweet_and_url = subject.extract_tweet_with_url(tweet_with_url)
+    tweet_and_url[0].should == tweet
+    tweet_and_url[1].should == url
+  end
 end

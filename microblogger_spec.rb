@@ -7,9 +7,8 @@ describe MicroBlogger do
 
   it "sends a tweet under 140 characters" do
     message = "sample tweet"
-    tweet_text = "t #{message}"
     twitter_client.should_receive(:update).with(message)
-    blogger.tweet(tweet_text)
+    blogger.tweet(message)
   end
 
   it "does not send tweet if more than 140 characters" do
