@@ -3,17 +3,9 @@ class CommandParser
     input.split(" ")[0]
   end
 
-  def extract_tweet_message(input)
+  def extract_single_parameter(input)
     parts = input.split(" ")
     parts[1..-1].join(" ")
-  end
-
-  def extract_spam_message(input)
-    extract_tweet_message(input)
-  end
-
-  def extract_single_parameter(input)
-    extract_tweet_message(input)
   end
 
   def extract_dm_message(input)

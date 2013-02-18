@@ -10,7 +10,7 @@ class MicroBlogger
   end
 
   def spam_my_friends(message)
-    spam_message = @command_parser.extract_spam_message(message)
+    spam_message = @command_parser.extract_single_parameter(message)
     followers_list.each do |f|
       dm("dm #{f} #{spam_message}")
     end

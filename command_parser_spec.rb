@@ -10,7 +10,7 @@ describe CommandParser do
   it "extracts the tweet parameter" do
     tweet = "this is a test tweet"
     input = "t #{tweet}"
-    parameter = subject.extract_tweet_message(input) 
+    parameter = subject.extract_single_parameter(input) 
     parameter.should == tweet
   end
 

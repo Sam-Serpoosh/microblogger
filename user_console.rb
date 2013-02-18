@@ -23,9 +23,9 @@ class UserConsole
   def process_command(command, input)
       case command
         when "q"
-          puts "Goodbye!"
+          puts generate_message_for(command)
         when "t"
-          @microblogger.tweet(@command_parser.extract_tweet_message(input))
+          @microblogger.tweet(@command_parser.extract_single_parameter(input))
         when "dm"
           @microblogger.dm(input)
         when "spam"
@@ -35,8 +35,13 @@ class UserConsole
         when "turl"
           tweet_with_url(input)
         else
-          puts "Sorry, I don't know how to #{command}"
+          puts generate_message_for(command)
       end
+  end
+  
+  def generate_message_for(command)
+    return "Goodbye!" if command.eql?("q")
+    "Sorry, I don't know how to #{command}"
   end
 
   def print_messages(messages)
